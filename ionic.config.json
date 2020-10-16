@@ -1,0 +1,7 @@
+{
+  "name": "UQCS Hackathon 2020 PogShitter",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
