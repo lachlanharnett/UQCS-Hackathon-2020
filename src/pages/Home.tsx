@@ -79,9 +79,9 @@ const Home: React.FC = () => {
 
         var newClientLocation = await Geolocation.getCurrentPosition();
         
-        console.log(newClientLocation.coords.latitude, newClientLocation.coords.longitude);
+        //console.log(newClientLocation.coords.latitude, newClientLocation.coords.longitude);
 
-        //Initialise the arrays.
+        //Initialise the arrays for later comparison
         for (var i = 0; i < JSONDATA?.data.result.total; i++) {
             LatLongArray[i][0] = JSONDATA?.data.result.records[i].Latitude;
 
@@ -89,8 +89,11 @@ const Home: React.FC = () => {
         }
 
       
-        console.log(LatLongArray);
-        findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
+        //console.log(LatLongArray);
+        var minShitterValue = findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
+
+        var nearestToiletPosition = LatLongArray[minShitterValue];
+        console.log("Nearest Toilet co-ords", nearestToiletPosition);
       }).catch(async function(error: any) {
           console.log("error");
       })
@@ -123,7 +126,7 @@ const Home: React.FC = () => {
       }
     }
 
-    console.log(currentMin);
+    //console.log(currentMin);
 
     var minShitterEntry = 0;
     //Now go back through the array and find which entry it was.
@@ -135,7 +138,7 @@ const Home: React.FC = () => {
     }
     
     //BULKCOORDINATES FOR MINSHITTERENTRY IS WHAT WE NEED TO BE USING TO ENTER INTO THE API.
-    console.log(minShitterEntry, currentMin, bulkCoordinates[minShitterEntry]);
+    //console.log(minShitterEntry, currentMin, bulkCoordinates[minShitterEntry]);
 
 
     function pythagoreanTriangle(userLat: number, userLong: number, compareLat: number, compareLong: number) {
@@ -177,15 +180,18 @@ const Home: React.FC = () => {
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
                 <IonButton type="submit" onClick= {() => {retrieveToiletData();}}>FIND NEAREST TOILET</IonButton>
               </div>
+              <div className="Map">
+                <Map>
+                  
+                </Map>
+              </div>
               <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
-                <IonButton onClick={ () => {console.log("Works")}} expand="block" class="button">ADD TOILET DOESN'T WORK</IonButton>
+                <IonButton onClick={ () => {console.log("Works")}} expand="block" class="button">ADD NEW ENTRY</IonButton>
               </div>
             </IonCol>
           </IonRow>
-          <IonRow>
           
-          </IonRow>
         </IonGrid>
         
 
