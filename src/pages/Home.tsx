@@ -75,18 +75,10 @@ const Home: React.FC = () => {
         var LatLongArray = createArray(JSONDATA?.data.result.total);
         console.log(LatLongArray);
 
-        //Now that we have the array
-        //Find out the user location
-        console.log(geoFindClient());
         await geoFindClient()
-        .then (
-          async function(response: any) {
+        .then(
+          function(response: any) {
             console.log(response);
-          }
-        )
-        .catch (
-          async function(error: any) {
-            console.log(error);
           }
         )
 

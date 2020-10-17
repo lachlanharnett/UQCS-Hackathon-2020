@@ -14,7 +14,6 @@ export async function geoFindClient() {
     function success(pos) {
         clientLocation[0] = pos?.coords.latitude;
         clientLocation[1] = pos?.coords.longitude;
-        return clientLocation;
         //console.log(clientLocation[0], clientLocation[1]);
         
 
@@ -25,12 +24,13 @@ export async function geoFindClient() {
         clientLocation[0] = 9999;
         clientLocation[1] = 9999;
 
-        return clientLocation;
     }
 
 
     navigator.geolocation.getCurrentPosition(success, error, options);
     
+    console.log("Please fucking work");
+    console.log(clientLocation);
     return clientLocation;
     
 }
