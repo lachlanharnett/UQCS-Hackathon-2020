@@ -12,8 +12,8 @@ export function geoFindClient() {
 
     var clientLocation = new Array(2);
     function success(pos) {
-        clientLocation[0] = pos?.coords.latitude;
-        clientLocation[1] = pos?.coords.longitude;
+        clientLocation.push(pos?.coords.latitude);
+        clientLocation.push(pos?.coords.longitude);
         //console.log(clientLocation[0], clientLocation[1]);
         
 
@@ -29,8 +29,8 @@ export function geoFindClient() {
 
     navigator.geolocation.getCurrentPosition(success, error, options);
     
-    console.log("Please fucking work");
-    console.log(clientLocation);
+    
+    
     return clientLocation;
     
 }

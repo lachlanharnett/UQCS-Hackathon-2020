@@ -5,7 +5,7 @@ import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import {geoFindClient} from '../components/UserLocation';
+import { geoFindClient } from '../components/UserLocation';
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -21,6 +21,7 @@ import axios from 'axios';
  * The home component. Gets toilet data and other shit
  */
 const Home: React.FC = () => {
+  
 
   const [location, setLocation] = useState('');
   const [userLocation, setUserLocation] = useState('');
@@ -75,20 +76,21 @@ const Home: React.FC = () => {
         var LatLongArray = createArray(JSONDATA?.data.result.total);
         console.log(LatLongArray);
 
-        await geoFindClient()
-        .then(
-          function(response: any) {
-            console.log(response);
-          }
-        )
+        var newClientLocation = new Array(2);
 
-    
-      })
-      .catch(function(error: any) {
-        console.log(error);
-      })
-    
+        var clientLocation = geoFindClient();
+        
+        console.log(clientLocation.pop(), clientLocation.pop());
+      
+      }) 
+      .catch(
+        async function(error: any) {
+          console.log("error");
+        }
+      )
   }
+    
+    
   
 
 
