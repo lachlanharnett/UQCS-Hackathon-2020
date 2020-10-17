@@ -4,6 +4,7 @@
 
 .header {
   --background: #a27035;
+  height: 10vh;
 }
 
 .ion-text-center {
@@ -11,8 +12,6 @@
 }
 
 .logo {
-  width: 30vw;
-  height: 100%;
 }
 
 .main-container {
