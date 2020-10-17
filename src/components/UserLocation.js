@@ -3,7 +3,7 @@
  * @returns - an array of size 2 representing the client's latitude/longitude
  * coordinate 
  */
-export async function geoFindClient() {
+export function geoFindClient() {
     var options = {
         enableHighAccuracy: true,
         timeout: 15000,
