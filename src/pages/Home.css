@@ -1,0 +1,32 @@
+* {
+  font-size: 16px;
+}
+
+.header {
+  --background: #a27035;
+}
+
+.ion-text-center {
+  --color: #ddca7d;
+}
+
+.main-container {
+  margin-top: 10vh;
+  color: white;
+}
+
+.add-toilet {
+  margin-top: 10vh;
+}
+
+.text {
+  color: #ddca7d;
+}
+
+.background {
+  --background: #242331;
+}
+
+.button {
+  --background: #b88b4a;
+}
