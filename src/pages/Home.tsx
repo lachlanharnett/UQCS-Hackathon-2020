@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import './Home.css';
 import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
+import L from 'leaflet';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -21,7 +23,7 @@ const Home: React.FC = () => {
   const [location, setLocation] = useState('');
   //const toiletData = HTTP.get(`https://data.gov.au/data/api/3/action/datastore_search?resource_id=100da45f-6d1d-40ad-8c47-5a0481f1fbf9&q=`, location, null);
 
-
+  const { Map: LeafletMap } = window.ReactLeaflet;
 
   //To query, go website&q='suburb' 
   //WE MUST MAKE THEM PUT IN A SUBURB FOR BASIC DEMONSTRATION PURPOSES BECAUSE WE DON'T HAVE TIME TO MAKE OTHER OPTIONS WORK.
