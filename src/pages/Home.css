@@ -10,6 +10,11 @@
   --color: #ddca7d;
 }
 
+.logo {
+  width: 30vw;
+  height: 100%;
+}
+
 .main-container {
   margin-top: 10vh;
   border: 1px solid #533e2d;

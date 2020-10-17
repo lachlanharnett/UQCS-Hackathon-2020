@@ -2,6 +2,7 @@ import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, I
 import React, { useState } from 'react';
 import './Home.css';
 import '../components/GmapsAPI';
+import logo from '../images/logo.svg';
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar class="header">
-          <IonTitle class="ion-text-center" size="large">BUSTING</IonTitle>
+          <img src={ logo } className="logo"></img>
         </IonToolbar>
       </IonHeader>
       <IonContent class="background">
