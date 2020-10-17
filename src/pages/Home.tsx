@@ -56,7 +56,7 @@ const Home: React.FC = () => {
     //Get the JSON objects
     //THIS IS CORRECTLY PULLING THE GOVERNMENT DATASHEETS.
     const output = axios.get(parsingString)
-      .then (function(response) {
+      .then (function(response: any) {
         console.log(response);
         JSONDATA = response;
         //console.log(output);
@@ -72,10 +72,11 @@ const Home: React.FC = () => {
         console.log(LatLongArray);
 
         //Now that we have the array
+        //Find out the user location
         
 
       })
-      .catch(function(error) {
+      .catch(function(error: any) {
         console.log(error);
       })
 
