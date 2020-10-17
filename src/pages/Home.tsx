@@ -14,17 +14,18 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-import GmapsAPI from '../components/GmapsAPI';
+//import GmapsAPI from '../components/GmapsAPI';
 import axios from 'axios';
 
 /**
  * The home component. Gets toilet data and other shit
  */
 const Home: React.FC = () => {
-  
+  var googleMapsURL: React.SetStateAction<string>;
 
   const [location, setLocation] = useState('');
   const [userLocation, setUserLocation] = useState('');
+  const [userText, setUserText] = useState('FIND NEAREST TOILET');
   //const toiletData = HTTP.get(`https://data.gov.au/data/api/3/action/datastore_search?resource_id=100da45f-6d1d-40ad-8c47-5a0481f1fbf9&q=`, location, null);
 
 
@@ -91,9 +92,17 @@ const Home: React.FC = () => {
       
         //console.log(LatLongArray);
         var minShitterValue = findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
-
+        console.log("Your location", newClientLocation.coords.latitude, newClientLocation.coords.longitude);
         var nearestToiletPosition = LatLongArray[minShitterValue];
         console.log("Nearest Toilet co-ords", nearestToiletPosition);
+
+        //Time to create the string that the user will click on.
+        var googleMapsString = `https://www.google.com/maps/dir/?api=1&origin=${newClientLocation.coords.latitude},${newClientLocation.coords.longitude}&destination=${nearestToiletPosition[0]},${nearestToiletPosition[1]}`;
+        console.log(googleMapsString);
+        googleMapsURL = googleMapsString;
+
+
+
       }).catch(async function(error: any) {
           console.log("error");
       })
@@ -178,12 +187,7 @@ const Home: React.FC = () => {
             <IonCol>
               <div className="main-container">
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
-                <IonButton type="submit" onClick= {() => {retrieveToiletData();}}>FIND NEAREST TOILET</IonButton>
-              </div>
-              <div className="Map">
-                <Map>
-                  
-                </Map>
+                <IonButton type="submit" onClick= {() => {retrieveToiletData();}}> FIND A TOILET</IonButton>
               </div>
               <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
