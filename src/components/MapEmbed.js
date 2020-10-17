@@ -1,6 +1,9 @@
+
+// delete eventually
+
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { geoFindClient } from './UserLocation.js'
+import { geoFindClient } from './UserLocation'
 
 if (geoFindClient() != -1) {
   const position = geoFindClient();
