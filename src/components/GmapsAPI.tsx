@@ -1,21 +1,15 @@
-//THIS IS INTENDED FOR HTE GMAPS API
+
+import { IonContent } from '@ionic/react';
 import React from 'react';
 
-interface ContainerProps {}
 
-const GmapsAPI: React.FC<ContainerProps> = () => {
+
+const GmapsAPI: React.FC = () => {
     return (
-
-        //This is just a placeholder. Fix this later with the proper GMAPS integration
-        <div className="container">
-        <strong>Ready to create an app?</strong>
-            <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-        </div>
-
-
-
+        <IonContent>
+            
+        </IonContent>
     );
-}
-
+};
 
 export default GmapsAPI;
