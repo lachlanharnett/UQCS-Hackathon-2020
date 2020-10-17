@@ -18,7 +18,7 @@ function main(map, lat, long) {
  * @param toilet - a length 2 array representing the location
  * of the given toilet by lat/long
  */
-function plotRoute(map, lat, long, toilet) {
+export function plotRoute(map, lat, long, toilet) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
@@ -39,7 +39,7 @@ function plotRoute(map, lat, long, toilet) {
  * @param lat - latitude of client
  * @param lat - longitude of client
  */
-function sortByStraight(toilets, lat, long) {
+export function sortByStraight(toilets, lat, long) {
     toilets.sort(getToiletComparator(lat, long));
 }
 
@@ -51,7 +51,7 @@ function sortByStraight(toilets, lat, long) {
  * @param long
  * @returns {function(*, *): number}
  */
-function getToiletComparator(lat, long) {
+export function getToiletComparator(lat, long) {
     return (a, b) => straightDistance(lat, long, b[0], b[1]) - straightDistance(lat, long, a[0], a[1]);
 }
 
@@ -64,13 +64,13 @@ function getToiletComparator(lat, long) {
  * @param lon2
  * @returns {number}
  */
-function straightDistance(lat1, lon1, lat2, lon2) {
-    R = 6373;
-    dlon = lon2 - lon1;
-    dlat = lat2 - lat1;
-    a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2), 2);
-    c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a) );
-    d = R * c;
+export function straightDistance(lat1, lon1, lat2, lon2) {
+    const R = 6373;
+    var dlon = lon2 - lon1;
+    var dlat = lat2 - lat1;
+    var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2), 2);
+    var c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a) );
+    var d = R * c;
     return d;
 }
 
@@ -82,27 +82,7 @@ function straightDistance(lat1, lon1, lat2, lon2) {
  * @param lon2
  * @returns {number}
  */
-function straightDistance2(lat1, lon1, lat2, lon2) {
+export function straightDistance2(lat1, lon1, lat2, lon2) {
     return Math.sqrt(Math.pow(lat1-lat2, 2) + Math.pow(lon1-lon2, 2));
 }
 
-function geoFindMe() {
-    var options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
-
-    result = -1;
-    function success(pos) {
-        result[0] = pos.coords.latitude;
-        result[1] = pos.coords.longitude;
-    }
-
-    function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-
-    navigator.geolocation.getCurrentPosition(success, error, options);
-    return result;
-}

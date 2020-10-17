@@ -1,9 +1,12 @@
+
+// delete eventually
+
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { clientLocation } from './UserLocation'
+import { geoFindClient } from './UserLocation'
 
-if (clientLocation() != -1) {
-  const position = clientLocation();
+if (geoFindClient() != -1) {
+  const position = geoFindClient();
 
   const map = (
     <Map center={position} zoom={13}>
@@ -16,6 +19,5 @@ if (clientLocation() != -1) {
       </Marker>
     </Map>
   )
-  
   render(map, document.getElementById('map-container'))
 } 
