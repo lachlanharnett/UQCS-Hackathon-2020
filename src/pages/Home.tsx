@@ -117,6 +117,8 @@ const Home: React.FC = () => {
     //EACH ENTRY FOR THE TEMPLENGTH CORRESPONDS WITH THE ENTRY IN THE DOUBLE ARRAY.
     //Gotta put in the algorithm to find the shortest entry here.
 
+    
+
     function pythagoreanTriangle(userLat: number, userLong: number, compareLat: number, compareLong: number) {
       return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
     }
