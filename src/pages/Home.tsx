@@ -180,26 +180,22 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent class="background">
         <IonGrid class="ion-text-center">
-          <IonRow>
-            <IonTitle size="large"> <h1>Busting for a piss? Maybe something else? We've got you covered</h1></IonTitle>
-          </IonRow>
-          <IonRow>
+          <IonRow class="map-container">
+            <LeafMapEmbed/>
             <IonCol>
               <div className="main-container">
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
                 <IonButton type="submit" onClick= {() => {retrieveToiletData();}}> FIND A TOILET</IonButton>
-                <LeafMapEmbed />
-              </div>
-              <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
                 <IonButton onClick={ () => {console.log("Works")}} expand="block" class="button">ADD NEW ENTRY</IonButton>
               </div>
-            </IonCol>
+            </IonCol>            
+          </IonRow>
+          <IonRow>
+            <IonTitle size="large"> <h1>Busting for a piss? Maybe something else? We've got you covered</h1></IonTitle>
           </IonRow>
           
         </IonGrid>
-
-        
       </IonContent>
     </IonPage>
   );

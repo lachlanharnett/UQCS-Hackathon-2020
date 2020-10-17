@@ -17,28 +17,20 @@
 }
 
 .main-container {
-  margin-top: 10vh;
   border: 1px solid #533e2d;
   border-radius: 5px;
-  padding: 1em 1em 1em 1em;
+  padding: 1em 1em 1em 1em; 
+  align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: #533e2d;
 }
 
-.add-toilet {
-  margin-top: 10vh;
-  border: 1px solid white;
-  padding: 1em 1em 1em 1em;
-  border-radius: 5px;
-  border: 1px solid #533e2d;
-  background-color: #533e2d;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.map-container {
+  height: 70%; 
+  display: flex; 
+  flex-flow: column;
+  justify-content: flex-start;
 }
 
 .text {
