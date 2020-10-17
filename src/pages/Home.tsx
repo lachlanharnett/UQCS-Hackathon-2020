@@ -1,11 +1,11 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import './Home.css';
-import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import {Geolocation} from '@ionic-native/geolocation';
+import {LeafMapEmbed} from '../components/LeafMapEmbed'
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -188,6 +188,7 @@ const Home: React.FC = () => {
               <div className="main-container">
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
                 <IonButton type="submit" onClick= {() => {retrieveToiletData();}}> FIND A TOILET</IonButton>
+                <LeafMapEmbed />
               </div>
               <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
@@ -197,7 +198,6 @@ const Home: React.FC = () => {
           </IonRow>
           
         </IonGrid>
-        
 
         
       </IonContent>
