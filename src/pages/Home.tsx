@@ -54,7 +54,7 @@ const Home: React.FC = () => {
             <IonCol>
               <div className="main-container">
                 <IonButton onClick={ () => retrieveToiletData()} class="button">Allow access to location</IonButton>
-                <p> or </p>
+                <p className="text">or</p>
                 <IonInput placeholder="Enter Location" class="text" type="text" onIonChange ={(e: any) => setLocation(e.target.value)}></IonInput>
               </div>
               <div className="add-toilet">
