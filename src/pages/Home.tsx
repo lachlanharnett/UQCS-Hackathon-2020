@@ -1,6 +1,5 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 import '../components/GmapsAPI';
 
@@ -53,13 +52,14 @@ const Home: React.FC = () => {
           <IonRow>
             <IonCol>
               <div className="main-container">
-                <IonButton onClick={ () => retrieveToiletData()} class="button">Allow access to location</IonButton>
+                <IonButton onClick={ () => retrieveToiletData()} class="button" expand="block">Allow access to location</IonButton>
                 <p className="text">or</p>
                 <IonInput placeholder="Enter Location" class="text" type="text" onIonChange ={(e: any) => setLocation(e.target.value)}></IonInput>
+                <IonButton type="submit">Submit Location</IonButton>
               </div>
               <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
-                <IonButton onClick={ () => addToiletData()} class="button">Add toilet location</IonButton>
+                <IonButton onClick={ () => addToiletData()} expand="block" class="button">Add toilet location</IonButton>
               </div>
             </IonCol>
           </IonRow>

@@ -15,6 +15,9 @@
   border: 1px solid #533e2d;
   border-radius: 5px;
   padding: 1em 1em 1em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #533e2d;
 }
 
@@ -25,6 +28,9 @@
   border-radius: 5px;
   border: 1px solid #533e2d;
   background-color: #533e2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .text {
