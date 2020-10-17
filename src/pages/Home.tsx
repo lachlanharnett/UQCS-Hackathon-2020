@@ -44,7 +44,7 @@ const Home: React.FC = () => {
       arr[i] = new Array(2);
     }
     return arr;
-}
+  }
 
 
 
@@ -92,14 +92,11 @@ const Home: React.FC = () => {
         console.log(LatLongArray);
 
         findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
-      }) 
-      .catch(
-        async function(error: any) {
+      }).catch(async function(error: any) {
           console.log("error");
-        }
-      )
+      })
   }
-    
+      
   /**
    * Returns the entry that is the shortest distance.
    * @param currentLat The user's current latitude
@@ -153,8 +150,15 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
+        <Map center={[15,15]} zoom={13}>
+
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+        <Marker position={[15,15]}>
+
+        </Marker>
+        
+        </Map>
       </IonContent>
-      
     </IonPage>
   );
 };
