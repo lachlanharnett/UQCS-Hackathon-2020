@@ -16,6 +16,9 @@ import '@ionic/react/css/display.css';
 import GmapsAPI from '../components/GmapsAPI';
 import axios from 'axios';
 
+/**
+ * The home component. Gets toilet data and other shit
+ */
 const Home: React.FC = () => {
 
   const [location, setLocation] = useState('');
