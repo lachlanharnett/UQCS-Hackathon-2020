@@ -23,6 +23,7 @@ import axios from 'axios';
 const Home: React.FC = () => {
 
   const [location, setLocation] = useState('');
+  const [userLocation, setUserLocation] = useState('');
   //const toiletData = HTTP.get(`https://data.gov.au/data/api/3/action/datastore_search?resource_id=100da45f-6d1d-40ad-8c47-5a0481f1fbf9&q=`, location, null);
 
 
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
    * THIS GRABS THE DATA FROM THE GOVERNMENT DATABASE. 
    * REQUIRES YOU TO PUSH 'ALLOW ACCESS TO LOCATION' BUTTON!!!
    */
-  function retrieveToiletData() {
+  async function retrieveToiletData() {
     const parsingString = `${toiletGovernmentSite}${location}`;
     console.log(parsingString);
 
@@ -59,8 +60,8 @@ const Home: React.FC = () => {
     //Get the JSON objects
     //THIS IS CORRECTLY PULLING THE GOVERNMENT DATASHEETS.
     const output = axios.get(parsingString)
-      .then (function(response: any) {
-        console.log(response);
+      .then (async function(response: any) {
+        
         JSONDATA = response;
         //console.log(output);
         console.log("_____________________________________")
@@ -76,22 +77,30 @@ const Home: React.FC = () => {
 
         //Now that we have the array
         //Find out the user location
-        var currentLocation = geoFindClient();
-        //  const userLocation = geoFindClient();
+        console.log(geoFindClient());
+        await geoFindClient()
+        .then (
+          async function(response: any) {
+            console.log(response);
+          }
+        )
+        .catch (
+          async function(error: any) {
+            console.log(error);
+          }
+        )
 
-
+    
       })
       .catch(function(error: any) {
         console.log(error);
       })
-
-      
-
-    //console.log(output);
-
     
   }
   
+
+
+  function addToiletData() {}
   
 
   return (

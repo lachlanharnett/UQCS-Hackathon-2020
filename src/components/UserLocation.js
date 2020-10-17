@@ -1,25 +1,36 @@
 /**
  * Get the client's location
  * @returns - an array of size 2 representing the client's latitude/longitude
- * coordinate or -1 if an eror occured
+ * coordinate 
  */
-export function geoFindClient() {
+export async function geoFindClient() {
     var options = {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 15000,
         maximumAge: 0
     };
 
-    var clientLocation = -1;
+    var clientLocation = new Array(2);
     function success(pos) {
-        clientLocation[0] = pos.coords.latitude;
-        clientLocation[1] = pos.coords.longitude;
+        clientLocation[0] = pos?.coords.latitude;
+        clientLocation[1] = pos?.coords.longitude;
+        return clientLocation;
+        //console.log(clientLocation[0], clientLocation[1]);
+        
+
     }
 
     function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}`);
+        clientLocation[0] = 9999;
+        clientLocation[1] = 9999;
+
+        return clientLocation;
     }
 
+
     navigator.geolocation.getCurrentPosition(success, error, options);
+    
     return clientLocation;
+    
 }
