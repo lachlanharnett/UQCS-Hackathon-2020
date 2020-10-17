@@ -90,12 +90,14 @@ const Home: React.FC = () => {
 
       
         console.log(LatLongArray);
-
         findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
       }).catch(async function(error: any) {
           console.log("error");
       })
   }
+
+
+  
       
   /**
    * Returns the entry that is the shortest distance.
@@ -137,13 +139,24 @@ const Home: React.FC = () => {
 
 
     function pythagoreanTriangle(userLat: number, userLong: number, compareLat: number, compareLong: number) {
-      return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
+      const R = 6373;
+      var dlon = compareLong - userLong;
+      var dlat = compareLat- userLat;
+      var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(userLat) * Math.cos(compareLat) * Math.pow(Math.sin(dlon/2), 2);
+      var c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a) );
+      var d = R * c;
+      return d;
+      //return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
     }
+
+    return minShitterEntry;
   }
   
 
 
-  function addToiletData() {}
+  function addToiletData() {
+
+  }
   
 
   return (
@@ -156,16 +169,18 @@ const Home: React.FC = () => {
       <IonContent class="background">
         <IonGrid class="ion-text-center">
           <IonRow>
+            <IonTitle size="large"> <h1>Busting for a piss? Maybe something else? We've got you covered</h1></IonTitle>
+          </IonRow>
+          <IonRow>
             <IonCol>
               <div className="main-container">
-                <IonButton onClick={ () => retrieveToiletData()} class="button" expand="block">Allow access to location</IonButton>
-                <p className="text">or</p>
-                <IonInput placeholder="Enter Location" class="text" type="text" onIonChange ={(e: any) => setLocation(e.target.value)}></IonInput>
-                <IonButton type="submit">Submit Location</IonButton>
+                
+                <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
+                <IonButton type="submit" onClick= {() => {retrieveToiletData();}}>FIND NEAREST TOILET</IonButton>
               </div>
               <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
-                <IonButton onClick={ () => addToiletData()} expand="block" class="button">Add toilet location</IonButton>
+                <IonButton onClick={ () => {console.log("Works")}} expand="block" class="button">ADD TOILET DOESN'T WORK</IonButton>
               </div>
             </IonCol>
           </IonRow>
