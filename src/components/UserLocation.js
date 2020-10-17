@@ -10,7 +10,7 @@ export function geoFindClient() {
         maximumAge: 0
     };
 
-    clientLocation = -1;
+    var clientLocation = -1;
     function success(pos) {
         clientLocation[0] = pos.coords.latitude;
         clientLocation[1] = pos.coords.longitude;

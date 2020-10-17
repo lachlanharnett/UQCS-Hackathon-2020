@@ -5,6 +5,7 @@ import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import {geoFindClient} from '../components/UserLocation';
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -75,7 +76,9 @@ const Home: React.FC = () => {
 
         //Now that we have the array
         //Find out the user location
-        
+        var currentLocation = geoFindClient();
+        //  const userLocation = geoFindClient();
+
 
       })
       .catch(function(error: any) {
@@ -89,9 +92,7 @@ const Home: React.FC = () => {
     
   }
   
-  function addToiletData() {
-
-  }
+  
 
   return (
     <IonPage>
