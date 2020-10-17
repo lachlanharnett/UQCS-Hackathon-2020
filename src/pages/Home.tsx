@@ -27,7 +27,7 @@ const Home: React.FC = () => {
   //WE MUST MAKE THEM PUT IN A SUBURB FOR BASIC DEMONSTRATION PURPOSES BECAUSE WE DON'T HAVE TIME TO MAKE OTHER OPTIONS WORK.
   const toiletGovernmentSite = "https://data.gov.au/data/api/3/action/datastore_search?resource_id=100da45f-6d1d-40ad-8c47-5a0481f1fbf9&q=";
 
-  function outputToiletData() {
+  function retrieveToiletData() {
     const parsingString = `${toiletGovernmentSite}${location}`;
     console.log(parsingString);
 
@@ -37,30 +37,30 @@ const Home: React.FC = () => {
     console.log(output);
   }
   
+  function addToiletData() {
+
+  }
 
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle class="ion-text-center" size="large">Codename: PogShitter</IonTitle>
+        <IonToolbar class="header">
+          <IonTitle class="ion-text-center" size="large">BUSTING</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent class="background">
         <IonGrid class="ion-text-center">
           <IonRow>
             <IonCol>
-            Test
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-            Test 1
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonInput placeholder="Type here" class="ion-text-center" type="text" onIonChange ={(e: any) => setLocation(e.target.value)}></IonInput>
-            <IonButton onClick={ () => outputToiletData()}>Press me for Jones Data</IonButton>
+              <div className="main-container">
+                <IonButton onClick={ () => retrieveToiletData()} class="button">Allow access to location</IonButton>
+                <p> or </p>
+                <IonInput placeholder="Enter Location" class="text" type="text" onIonChange ={(e: any) => setLocation(e.target.value)}></IonInput>
+              </div>
+              <div className="add-toilet">
+                <p className="text">Are we missing a toilet?</p>
+                <IonButton onClick={ () => addToiletData()} class="button">Add toilet location</IonButton>
+              </div>
             </IonCol>
           </IonRow>
         </IonGrid>
