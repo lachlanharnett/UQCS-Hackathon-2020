@@ -1,33 +1,25 @@
+/**
+ * Get the client's location
+ * @returns - an array of size 2 representing the client's latitude/longitude
+ * coordinate or -1 if an eror occured
+ */
+function geoFindClient() {
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
 
+    result = -1;
+    function success(pos) {
+        result[0] = pos.coords.latitude;
+        result[1] = pos.coords.longitude;
+    }
 
-function geoFindMe() {
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
 
-    const status = document.querySelector('#status');
-    const mapLink = document.querySelector('#map-link');
-  
-    mapLink.href = '';
-    mapLink.textContent = '';
-  
-    function success(position) {
-      const latitude  = position.coords.latitude;
-      const longitude = position.coords.longitude;
-  
-      status.textContent = '';
-      mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-      mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-    }
-  
-    function error() {
-      status.textContent = 'Unable to retrieve your location';
-    }
-  
-    if(!navigator.geolocation) {
-      status.textContent = 'Geolocation is not supported by your browser';
-    } else {
-      status.textContent = 'Locating…';
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
-  
-  }
-  
-  document.querySelector('#find-me').addEventListener('click', geoFindMe);
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    return result;
+}

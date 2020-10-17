@@ -10,8 +10,32 @@ function main(map, lat, long) {
 }
 
 /**
+ * plot a route from the client's location (given by lat and long)
+ * to the given toilet
+ * @param map
+ * @param lat - latitude of the client
+ * @param long - longitude of the client
+ * @param toilet - a length 2 array representing the location
+ * of the given toilet by lat/long
+ */
+function plotRoute(map, lat, long, toilet) {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.Routing.control({
+        waypoints: [
+            L.latLng(lat, long),
+            L.latLng(toilet[0], toilet[1])
+        ],
+        routeWhileDragging: true
+    }).addTo(map);
+}
+
+/**
  * Sort toilets by straight distance from client.
- * @param toilets - an array of lat long coordinates
+ * @param toilets - an array of lat long coordinates. specifically, this
+ * is an array of length 2 arrays.
  * @param lat - latitude of client
  * @param lat - longitude of client
  */
@@ -32,7 +56,8 @@ function getToiletComparator(lat, long) {
 }
 
 /**
- * get the "straight" distance from one coordinate to another.
+ * get the "straight" distance from one coordinate to another. takes
+ * into account that the earth is round.
  * @param lat1
  * @param lon1
  * @param lat2
@@ -49,6 +74,35 @@ function straightDistance(lat1, lon1, lat2, lon2) {
     return d;
 }
 
+/**
+ * fallback function in case straightDistance is not suitable.
+ * @param lat1
+ * @param lon1
+ * @param lat2
+ * @param lon2
+ * @returns {number}
+ */
 function straightDistance2(lat1, lon1, lat2, lon2) {
     return Math.sqrt(Math.pow(lat1-lat2, 2) + Math.pow(lon1-lon2, 2));
+}
+
+function geoFindMe() {
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    result = -1;
+    function success(pos) {
+        result[0] = pos.coords.latitude;
+        result[1] = pos.coords.longitude;
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    return result;
 }
