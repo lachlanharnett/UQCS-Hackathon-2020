@@ -113,8 +113,28 @@ const Home: React.FC = () => {
     console.log(tempLength);
     //EACH ENTRY FOR THE TEMPLENGTH CORRESPONDS WITH THE ENTRY IN THE DOUBLE ARRAY.
     //Gotta put in the algorithm to find the shortest entry here.
+    //O(n^2) time complexity.
+    var currentMin = tempLength[0];
+    for (var k = 1; k < tempLength.length; k++) {
+      if(currentMin > tempLength[k]) {
+        currentMin = tempLength[k];
+      }
+    }
 
+    console.log(currentMin);
+
+    var minShitterEntry = 0;
+    //Now go back through the array and find which entry it was.
+    for (var iterator = 0; iterator < tempLength.length; iterator++) {
+      if (currentMin === tempLength[iterator]) {
+        minShitterEntry = iterator;
+        break;
+      }
+    }
     
+    //BULKCOORDINATES FOR MINSHITTERENTRY IS WHAT WE NEED TO BE USING TO ENTER INTO THE API.
+    console.log(minShitterEntry, currentMin, bulkCoordinates[minShitterEntry]);
+
 
     function pythagoreanTriangle(userLat: number, userLong: number, compareLat: number, compareLong: number) {
       return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
@@ -149,15 +169,13 @@ const Home: React.FC = () => {
               </div>
             </IonCol>
           </IonRow>
+          <IonRow>
+          
+          </IonRow>
         </IonGrid>
-        <Map center={[15,15]} zoom={13}>
-
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-        <Marker position={[15,15]}>
-
-        </Marker>
         
-        </Map>
+
+        
       </IonContent>
     </IonPage>
   );
