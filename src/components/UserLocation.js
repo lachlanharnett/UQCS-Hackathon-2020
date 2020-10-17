@@ -11,26 +11,19 @@ export function geoFindClient() {
     };
 
     var clientLocation = new Array(2);
-    function success(pos) {
-        clientLocation.push(pos?.coords.latitude);
-        clientLocation.push(pos?.coords.longitude);
-        //console.log(clientLocation[0], clientLocation[1]);
-        
-
+    function success(position) {
+        clientLocation.push(position.coords.latitude);
+        clientLocation.push(position.coords.longitude);
     }
 
-    function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
+    function error() {
+        console.warn('Error in geoFindClient');
         clientLocation[0] = 9999;
         clientLocation[1] = 9999;
-
     }
 
-
     navigator.geolocation.getCurrentPosition(success, error, options);
-    
-    
-    
+
     return clientLocation;
     
 }
