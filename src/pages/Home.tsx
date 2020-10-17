@@ -37,7 +37,7 @@ const Home: React.FC = () => {
    * @param length The largest entry number in the function. Cannot be negative
    */
   function createArray(length: number) {
-    if (length < 0) { return null; }
+    
     var arr = new Array(length);
     //Rows are Latitude, Columns are Longitude.
     for (var i = 0; i < arr.length; i++) {
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
 
 
   function addToiletData() {
-
+    //Does nothing right now
   }
   
 
@@ -174,7 +174,6 @@ const Home: React.FC = () => {
           <IonRow>
             <IonCol>
               <div className="main-container">
-                
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
                 <IonButton type="submit" onClick= {() => {retrieveToiletData();}}>FIND NEAREST TOILET</IonButton>
               </div>
