@@ -5,7 +5,7 @@ import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
 import L from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { geoFindClient } from '../components/UserLocation';
+import {Geolocation} from '@ionic-native/geolocation';
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -69,19 +69,29 @@ const Home: React.FC = () => {
 
         //Successful
         console.log(JSONDATA?.data.result.records[1]);
-        console.log(JSONDATA?.data.result.records[1].Latitude);
+        //console.log(JSONDATA?.data.result.records[1].Latitude);
         
 
         //initialise the 2D array here
         var LatLongArray = createArray(JSONDATA?.data.result.total);
+        //console.log(LatLongArray);
+
+
+        var newClientLocation = await Geolocation.getCurrentPosition();
+        
+        console.log(newClientLocation.coords.latitude, newClientLocation.coords.longitude);
+
+        //Initialise the arrays.
+        for (var i = 0; i < JSONDATA?.data.result.total; i++) {
+            LatLongArray[i][0] = JSONDATA?.data.result.records[i].Latitude;
+
+            LatLongArray[i][1] = JSONDATA?.data.result.records[i].Longitude;
+        }
+
+      
         console.log(LatLongArray);
 
-        var newClientLocation = new Array(2);
-
-        var clientLocation = geoFindClient();
-        
-        console.log(clientLocation.pop(), clientLocation.pop());
-      
+        findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
       }) 
       .catch(
         async function(error: any) {
@@ -90,7 +100,27 @@ const Home: React.FC = () => {
       )
   }
     
+  /**
+   * Returns the entry that is the shortest distance.
+   * @param currentLat The user's current latitude
+   * @param currentLong  The users's current longitude
+   * @param bulkCoordinates The 2D array of values
+   */
+  function findShortestPath(currentLat: number, currentLong: number, bulkCoordinates: Array<Array<number>>) {
+    var tempLength = new Array(bulkCoordinates.length);
     
+    for (var i = 0; i < bulkCoordinates.length; i++) {
+      tempLength[i] = pythagoreanTriangle(currentLat, currentLong, bulkCoordinates[i][0], bulkCoordinates[i][1]);
+    }
+
+    console.log(tempLength);
+    //EACH ENTRY FOR THE TEMPLENGTH CORRESPONDS WITH THE ENTRY IN THE DOUBLE ARRAY.
+    //Gotta put in the algorithm to find the shortest entry here.
+
+    function pythagoreanTriangle(userLat: number, userLong: number, compareLat: number, compareLong: number) {
+      return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
+    }
+  }
   
 
 
