@@ -1,61 +1,43 @@
 * {
-  font-size: 14px;
-  font-family: "Anton", sans-serif;
-  margin: auto;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  font-family: "Anton", sans-serif;
 }
 
-.header {
+button a {
+  font-size: 4vh;
+}
+
+.grid-container {
   width: 100%;
-  height: 10vh;
-  background-color: #242331;
+  margin: 0 auto;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.logo-svg {
-  width: 20%;
-  height: 80%;
+#logo {
+  margin-top: 0.75em;
+  margin-bottom: 1em;
+  width: 90%;
 }
 
-.container {
-  width: 100%;
-  height: 90%;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: #b88b4a;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.sidebar {
   width: 30%;
+  height: 100%;
+  background-color: #533e2d;
+  transition: 1s ease;
+  position: relative;
 }
 
-.add-toilet-container {
+.interact-box {
   display: flex;
-  margin-top: 10vh;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 #mapid {
-  margin-top: 5%;
-  height: 70%;
   width: 70%;
+  height: 100%;
+  z-index: 100000;
 }
