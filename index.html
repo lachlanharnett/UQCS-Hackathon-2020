@@ -44,6 +44,8 @@
             }
 
             function tryStarting() {
+                console.log(client);
+                console.log(toilets);
                 if (toilets != null && client != null) {
                     doMap();
                 }
@@ -51,9 +53,9 @@
 
             var limit = 1000000;
 
-            getToiletsFromGovt(
-                "https://data.gov.au/data/api/3/action/datastore_search?resource_id=34076296-6692-4e30-b627-67b7c4eb1027&limit="
-                + limit, storeToilets);
+            var url = "https://data.gov.au/data/api/3/action/datastore_search?resource_id=34076296-6692-4e30-b627-67b7c4eb1027&limit="
+                + limit;
+            getToiletsFromGovt(url, storeToilets);
 
             function getLocation() {
                 geoFindClient(storeLocation);
@@ -182,7 +184,7 @@
              * @returns {function(*, *): number}
              */
             function getToiletComparator(lat, long) {
-                return (a, b) => straightDistance(lat, long, b[0], b[1]) - straightDistance(lat, long, a[0], a[1]);
+                return (a, b) => straightDistance(lat, long, a[0], a[1]) - straightDistance(lat, long, b[0], b[1]);
             }
 
             /**
