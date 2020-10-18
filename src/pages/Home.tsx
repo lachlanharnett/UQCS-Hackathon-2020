@@ -1,11 +1,11 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import './Home.css';
-import '../components/GmapsAPI';
 import logo from '../images/logo.svg';
-import L from 'leaflet';
+import L, { LatLngTuple } from 'leaflet';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import {Geolocation} from '@ionic-native/geolocation';
+import {LeafMapEmbed} from '../components/LeafMapEmbed'
 
 //import {HTTP} from '@ionic-native/http';
 import '@ionic/react/css/padding.css';
@@ -47,7 +47,8 @@ const Home: React.FC = () => {
     return arr;
   }
 
-
+  let clientLocation = new Array<number>(2);
+  let nearestToiletPosition = new Array<number>(2);
 
   /**
    * THIS GRABS THE DATA FROM THE GOVERNMENT DATABASE. 
@@ -93,7 +94,7 @@ const Home: React.FC = () => {
         //console.log(LatLongArray);
         var minShitterValue = findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
         console.log("Your location", newClientLocation.coords.latitude, newClientLocation.coords.longitude);
-        var nearestToiletPosition = LatLongArray[minShitterValue];
+        nearestToiletPosition = LatLongArray[minShitterValue];
         console.log("Nearest Toilet co-ords", nearestToiletPosition);
 
         //Time to create the string that the user will click on.
@@ -101,10 +102,9 @@ const Home: React.FC = () => {
         console.log(googleMapsString);
         googleMapsURL = googleMapsString;
 
-
-
       }).catch(async function(error: any) {
           console.log("error");
+          console.trace();
       })
   }
 
@@ -170,6 +170,15 @@ const Home: React.FC = () => {
     //Does nothing right now
   }
   
+  function leafMapEmbed() {
+    const zoom = 18;
+
+    let mapCenter = nearestToiletPosition as LatLngTuple;
+
+    var stinkyPooMap = L.map('poopoo').setView(mapCenter, zoom);
+    return stinkyPooMap;
+  }
+
 
   return (
     <IonPage>
@@ -180,26 +189,24 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent class="background">
         <IonGrid class="ion-text-center">
-          <IonRow>
-            <IonTitle size="large"> <h1>Busting for a piss? Maybe something else? We've got you covered</h1></IonTitle>
-          </IonRow>
-          <IonRow>
+          <IonRow class="map-container">
+            <div id="poopoo">
+
+            </div>
             <IonCol>
               <div className="main-container">
                 <IonInput placeholder="Enter the city/town you live in. Will not work otherwise" class="text" type="text" onIonChange ={(e: any) => {setLocation(e.target.value);}}></IonInput>
                 <IonButton type="submit" onClick= {() => {retrieveToiletData();}}> FIND A TOILET</IonButton>
-              </div>
-              <div className="add-toilet">
                 <p className="text">Are we missing a toilet?</p>
                 <IonButton onClick={ () => {console.log("Works")}} expand="block" class="button">ADD NEW ENTRY</IonButton>
               </div>
-            </IonCol>
+            </IonCol>            
+          </IonRow>
+          <IonRow>
+            <IonTitle size="large"> <h1>Busting for a piss? Maybe something else? We've got you covered</h1></IonTitle>
           </IonRow>
           
         </IonGrid>
-        
-
-        
       </IonContent>
     </IonPage>
   );
