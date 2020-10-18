@@ -8,6 +8,10 @@ button a {
   font-size: 4vh;
 }
 
+a {
+  text-align: center;
+}
+
 .grid-container {
   width: 100%;
   margin: 0 auto;
