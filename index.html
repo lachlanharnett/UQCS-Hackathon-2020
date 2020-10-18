@@ -21,7 +21,7 @@
     <body>
         <div class="container">
             <div class="main-container">
-                <button type="submit" class="btn btn-dark" onclick="openMapAccess()">Allow access to location</button>
+                <button type="submit" class="btn btn-dark" onclick="getLocation()">Allow access to location</button>
                 <p class="text">or</p>
                 <input type="text" placeholder="Enter location"></input>
                 <br>
@@ -30,8 +30,37 @@
             <div id="mapid"></div>
         </div>
         <script>
-        function openMapAccess(){
-            var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+            var toilets = null;
+            var client = null;
+
+            function storeToilets(t) {
+                toilets = t;
+                tryStarting();
+            }
+
+            function storeLocation(l) {
+                client = l;
+                tryStarting();
+            }
+
+            function tryStarting() {
+                if (toilets != null && client != null) {
+                    doMap();
+                }
+            }
+
+            var limit = 1000000;
+
+            getToiletsFromGovt(
+                "https://data.gov.au/data/api/3/action/datastore_search?resource_id=34076296-6692-4e30-b627-67b7c4eb1027&limit="
+                + limit, storeToilets);
+
+            function getLocation() {
+                geoFindClient(storeLocation);
+            }
+
+        function doMap(){
+            var mymap = L.map('mapid').setView(client, 13);
 
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -42,13 +71,10 @@
                 accessToken: 'pk.eyJ1IjoibmIweWMzMyIsImEiOiJja2dkZmczczMwNmQ1MndwZ29mMTVidzk1In0.fv0DZlTYEdChhpcLDI8OtA'
             }).addTo(mymap);
 
-            retrieveToiletData();
-            var toilet = [-27,153];
-            geoFindClient((lat, long) => (plotRoute(mymap, lat, long, toilet)));
-
+            sortByStraight(toilets, client[0], client[1]);
+            var toilet = toilets[0];
+            plotRoute(mymap, client[0], client[1], toilet);
         }
-
-        var toiletGovernmentSite = "https://data.gov.au/data/api/3/action/datastore_search?resource_id=100da45f-6d1d-40ad-8c47-5a0481f1fbf9&q=";
 
         /**
          * plot a route from the client's location (given by lat and long)
@@ -72,6 +98,7 @@
                 routeWhileDragging: true
             }).addTo(map);
         }
+
         /**
          * Get the client's location
          * @returns - an array of size 2 representing the client's latitude/longitude
@@ -86,10 +113,10 @@
 
             result = -1;
             function success(pos) {
+                result = [];
                 result[0] = pos.coords.latitude;
                 result[1] = pos.coords.longitude;
-                callback(result[0], result[1]);
-                console.log("what up what up");
+                callback(result);
             }
 
             function error(err) {
@@ -98,128 +125,84 @@
 
             navigator.geolocation.getCurrentPosition(success, error, options);
         }
-
-        /**
-         * 
-         * @param length The largest entry number in the function. Cannot be negative
-         */
-        function createArray(length) {
-            
-            var arr = new Array(length);
-            //Rows are Latitude, Columns are Longitude.
-            for (var i = 0; i < arr.length; i++) {
-            arr[i] = new Array(2);
-            }
-            return arr;
-        }
-
-        /**
-         * THIS GRABS THE DATA FROM THE GOVERNMENT DATABASE. 
-         * REQUIRES YOU TO PUSH 'ALLOW ACCESS TO LOCATION' BUTTON!!!
-         */
-        async function retrieveToiletData() {
-            const parsingString = `${toiletGovernmentSite}${location}`;
-            console.log(parsingString);
-
-            var JSONDATA;
-
-            //Get the JSON objects
-            //THIS IS CORRECTLY PULLING THE GOVERNMENT DATASHEETS.
-            const output = axios.get(parsingString)
-            .then (async function(response) {
-                
-                JSONDATA = response;
-                //console.log(output);
-                console.log("_____________________________________")
-
-                //Successful
-                console.log(JSONDATA?.data.result.records[1]);
-                //console.log(JSONDATA?.data.result.records[1].Latitude);
-                
-
-                //initialise the 2D array here
-                var LatLongArray = createArray(JSONDATA?.data.result.total);
-                //console.log(LatLongArray);
-
-
-                var newClientLocation = await Geolocation.getCurrentPosition();
-                
-                //console.log(newClientLocation.coords.latitude, newClientLocation.coords.longitude);
-
-                //Initialise the arrays for later comparison
-                for (var i = 0; i < JSONDATA?.data.result.total; i++) {
-                    LatLongArray[i][0] = JSONDATA?.data.result.records[i].Latitude;
-
-                    LatLongArray[i][1] = JSONDATA?.data.result.records[i].Longitude;
+        function getJson(url, callback, toiletStorer) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onload = function() {
+                var status = xhr.status;
+                if (status === 200) {
+                    callback(null, xhr.response, toiletStorer);
+                } else {
+                    callback(status, xhr.response, toiletStorer);
                 }
-
-            
-                //console.log(LatLongArray);
-                var minShitterValue = findShortestPath(newClientLocation.coords.latitude, newClientLocation.coords.longitude, LatLongArray);
-                console.log("Your location", newClientLocation.coords.latitude, newClientLocation.coords.longitude);
-                var nearestToiletPosition = LatLongArray[minShitterValue];
-                console.log("Nearest Toilet co-ords", nearestToiletPosition);
-
-                //Time to create the string that the user will click on.
-                var googleMapsString = `https://www.google.com/maps/dir/?api=1&origin=${newClientLocation.coords.latitude},${newClientLocation.coords.longitude}&destination=${nearestToiletPosition[0]},${nearestToiletPosition[1]}`;
-                console.log(googleMapsString);
-                googleMapsURL = googleMapsString;
-
-            }).catch(async function(error) {
-                console.log("error");
-            })
+            };
+            xhr.send();
         }
+
         /**
-         * Returns the entry that is the shortest distance.
-         * @param currentLat The user's current latitude
-         * @param currentLong  The users's current longitude
-         * @param bulkCoordinates The 2D array of values
+         * Pull data from gov't website.
+         * @param url - gov't website
          */
-        function findShortestPath(currentLat, currentLong, bulkCoordinates) {
-            var tempLength = new Array(bulkCoordinates.length);
-            
-            for (var i = 0; i < bulkCoordinates.length; i++) {
-            tempLength[i] = pythagoreanTriangle(currentLat, currentLong, bulkCoordinates[i][0], bulkCoordinates[i][1]);
+        function getToiletsFromGovt(url, toiletStorer) {
+            getJson(url, _getToiletsFromGovt, toiletStorer);
+        }
+
+        function _getToiletsFromGovt(status, response, toiletStorer) {
+            var records =  response.result.records;
+            var toilets = [];
+            for (var i = 0; i < records.length; i++) {
+                var toilet = [];
+                var record = records[i];
+                toilet[0] = record.Latitude;
+                toilet[1] = record.Longitude;
+                toilets[i] = toilet;
             }
 
-            console.log(tempLength);
-            //EACH ENTRY FOR THE TEMPLENGTH CORRESPONDS WITH THE ENTRY IN THE DOUBLE ARRAY.
-            //Gotta put in the algorithm to find the shortest entry here.
-            //O(n^2) time complexity.
-            var currentMin = tempLength[0];
-            for (var k = 1; k < tempLength.length; k++) {
-            if(currentMin > tempLength[k]) {
-                currentMin = tempLength[k];
-            }
-            }
-            //console.log(currentMin);
+            toiletStorer(toilets);
+        }
 
-            var minShitterEntry = 0;
-            //Now go back through the array and find which entry it was.
-            for (var iterator = 0; iterator < tempLength.length; iterator++) {
-            if (currentMin === tempLength[iterator]) {
-                minShitterEntry = iterator;
-                break;
+            /**
+             * Sort toilets by straight distance from client.
+             * @param toilets - an array of lat long coordinates. specifically, this
+             * is an array of length 2 arrays.
+             * @param lat - latitude of client
+             * @param lat - longitude of client
+             */
+            function sortByStraight(toilets, lat, long) {
+                toilets.sort(getToiletComparator(lat, long));
             }
-            }
-            
-            //BULKCOORDINATES FOR MINSHITTERENTRY IS WHAT WE NEED TO BE USING TO ENTER INTO THE API.
-            //console.log(minShitterEntry, currentMin, bulkCoordinates[minShitterEntry]);
 
-            function pythagoreanTriangle(userLat, userLong, compareLat, compareLong) {
+            /**
+             * get a comparator function that we may use with Array.sort()
+             * the comparator compares coordinates by straight distance to the given
+             * latitude and longitude coordinate
+             * @param lat
+             * @param long
+             * @returns {function(*, *): number}
+             */
+            function getToiletComparator(lat, long) {
+                return (a, b) => straightDistance(lat, long, b[0], b[1]) - straightDistance(lat, long, a[0], a[1]);
+            }
+
+            /**
+             * get the "straight" distance from one coordinate to another. takes
+             * into account that the earth is round.
+             * @param lat1
+             * @param lon1
+             * @param lat2
+             * @param lon2
+             * @returns {number}
+             */
+            function straightDistance(lat1, lon1, lat2, lon2) {
                 const R = 6373;
-                var dlon = compareLong - userLong;
-                var dlat = compareLat- userLat;
-                var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(userLat) * Math.cos(compareLat) * Math.pow(Math.sin(dlon/2), 2);
+                var dlon = lon2 - lon1;
+                var dlat = lat2 - lat1;
+                var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2), 2);
                 var c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a) );
                 var d = R * c;
                 return d;
-            //return Math.sqrt(Math.pow(userLat-compareLat, 2) + Math.pow(userLong-compareLong, 2));
             }
-
-            return minShitterEntry;
-        }
-
         </script>
     </body>
 </html>
