@@ -19,11 +19,21 @@ a {
   display: flex;
 }
 
-#logo {
-  margin-top: 0.75em;
-  margin-bottom: 1em;
-  width: 90%;
+.title-header {
+  background-color: #533e2d;
+
 }
+
+.title-header a {
+  padding: 5em;
+}
+
+#logo {
+  display: block;
+  width: 25%;
+  margin: 0 auto 0 auto;
+
+ }
 
 .sidebar {
   width: 30%;
@@ -34,6 +44,7 @@ a {
 }
 
 .interact-box {
+  padding-top: 3em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,10 +114,12 @@ a {
 
   .sidebar {
     width: 100%;
-    height: 30%;
+    height: 20%;
     background-color: #533e2d;
     top: 0;
     z-index: 1000;
+    display: flex;
+    justify-content: center;
   }
 
   #mapid {
@@ -117,5 +130,12 @@ a {
   .interact-box {
     display: flex;
     flex-direction: row;
+    width: 80%;
+    padding-bottom: 3em;
   }
+
+  .interact-box button a {
+    font-size: xx-large;
+  }
+
 }
