@@ -17,7 +17,7 @@ function tryStarting() {
     }
 }
 
-var limit = 1000000;
+var limit = 30000;
 
 var url = "https://data.gov.au/data/api/3/action/datastore_search?resource_id=34076296-6692-4e30-b627-67b7c4eb1027&limit="
     + limit;
@@ -70,7 +70,7 @@ function plotRoute(map, lat, long, toilet) {
 /**
  * Get the client's location
  * @returns - an array of size 2 representing the client's latitude/longitude
- * coordinate or -1 if an eror occured
+ * coordinate or -1 if an error occured
  */
 function geoFindClient(callback) {
     var options = {
@@ -93,6 +93,7 @@ function geoFindClient(callback) {
 
     navigator.geolocation.getCurrentPosition(success, error, options);
 }
+
 function getJson(url, callback, toiletStorer) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
