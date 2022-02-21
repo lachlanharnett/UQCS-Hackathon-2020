@@ -165,9 +165,12 @@ function getToiletComparator(lat, long) {
  */
 function straightDistance(lat1, lon1, lat2, lon2) {
     const R = 6373;
-    var dlon = lon2 - lon1;
-    var dlat = lat2 - lat1;
-    var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2), 2);
+    var lat1radians = lat1 * Math.PI / 180;
+    var lat2radians = lat2 * Math.PI / 180;
+    var dlon = (lon2 - lon1) * Math.PI / 180;
+    var dlat = (lat2 - lat1) * Math.PI / 180;
+    var a = Math.pow(Math.sin(dlat/2), 2) + Math.cos(lat1radians) * Math.cos(lat2radians)
+        * Math.pow(Math.sin(dlon/2), 2);
     var c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a) );
     var d = R * c;
     return d;
