@@ -58,13 +58,15 @@ function plotRoute(map, lat, long, toilet) {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    L.Routing.control({
+    var control = L.Routing.control({
         waypoints: [
             L.latLng(lat, long),
             L.latLng(toilet[0], toilet[1])
         ],
         routeWhileDragging: true
     }).addTo(map);
+
+    control.hide();
 }
 
 /**
@@ -112,6 +114,7 @@ function getJson(url, callback, toiletStorer) {
 /**
  * Pull data from gov't website.
  * @param url - gov't website
+ * @param toiletStorer
  */
 function getToiletsFromGovt(url, toiletStorer) {
     getJson(url, _getToiletsFromGovt, toiletStorer);

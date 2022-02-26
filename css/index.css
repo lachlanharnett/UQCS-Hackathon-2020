@@ -10,7 +10,7 @@ body {
 }
 
 button a {
-  font-size: 3vh;
+  font-size: 25px;
 }
 
 a {
@@ -37,8 +37,8 @@ a {
 
 #logo {
   display: block;
-  width: 300px;
-  height: 80%;
+  width: 100%;
+  height: 10vh;
   margin: auto auto auto auto;
 
  }
@@ -52,11 +52,12 @@ a {
 }
 
 .interact-box {
-  display: block;
+  display: flex;
+  justify-content: center;
   padding-top: 3em;
   margin: auto;
   width: 80%;
-  height: 30px;
+
 }
 
 #mapid {
@@ -139,7 +140,7 @@ a {
     height: 30px;
   }
 
-  .interact-box button a {
-
+  .leaflet-routing-alt {
+    display: none
   }
 }
