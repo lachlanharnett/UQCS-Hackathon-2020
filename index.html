@@ -1,0 +1,36 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>Busting</title>
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="css/index.css">
+        <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+              integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+              crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+                integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+                crossorigin=""></script>
+        <script src="dependencies/leaflet-routing-machine.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <header class="title-header">
+            <a href="index.html">
+                <img src="./images/logo.svg" id="logo">
+            </a>
+        </header>
+
+        <div class="grid-container">
+            <div class="sidebar">
+                <div class="interact-box">
+                    <button type="submit" class="btn btn-dark" onclick="getLocation()"><a>Allow access to location</a></button>
+                </div>
+            </div>
+            <div id="mapid"></div>
+        </div>
+    </body>
+</html>
